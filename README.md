@@ -1,1 +1,1 @@
-# csci_6221_julia
+# CSCI 6221 Julia Project
