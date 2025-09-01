@@ -38,7 +38,7 @@ We’ll aim to meet at the following regular times:
 1. **Attendance**: Attend all scheduled synchronous meetings unless you notify the group at least 24 hours in advance.  
 2. **Communication**: Respond to group messages within 24 hours, unless otherwise agreed.  
 3. **Task Distribution**: Tasks will be divided based on individual strengths and current workload; everyone takes ownership for their part.  
-4. **Accountability**: If you anticipate missing a deadline, communicate proactively—and feel free to ask for help from teammates.  
+4. **Accountability**: If you anticipate missing a deadline, communicate proactively and feel free to ask for help from teammates.  
 5. **Respect and Professionalism**: Maintain an environment of mutual respect. Provide constructive feedback and be open to ideas and suggestions.  
 
 ---
