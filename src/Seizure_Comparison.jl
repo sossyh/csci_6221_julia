@@ -78,12 +78,14 @@ end
 
 #extract band powers for standard EEG bands
 function extract_band_powers(signal::AbstractVector{<:Real}, fs::Real)
+
+    #dictionary that holds band power frequencies
     bands = Dict(
         "Delta (0.5-4 Hz)" => (0.5, 4.0),
         "Theta (4-8 Hz)" => (4.0, 8.0),
-        "Alpha (8-13 Hz)" => (8.0, 13.0),
-        "Beta (13-30 Hz)" => (13.0, 30.0),
-        "Gamma (30-50 Hz)" => (30.0, 50.0)
+        "Alpha (8-12 Hz)" => (8.0, 12.0),
+        "Beta (12-30 Hz)" => (12.0, 30.0),
+        "Gamma (30-100 Hz)" => (30.0, 100.0)
     )
     
     powers = Dict{String, Float64}()
@@ -119,13 +121,10 @@ function compare_signals(seizure_path::String, normal_path::String)
     sz_signal, sz_fs = sz_chans[channel]
     norm_signal, norm_fs = norm_chans[channel]
     
-    if sz_fs != norm_fs
-        @warn "Sampling rates are different: seizure=$sz_fs Hz, normal=$norm_fs Hz"
-    end
     fs = sz_fs
     
-    #take segments (first 30 seconds or available)
-    segment_duration = 30.0
+    #take segment of 300 seconds to show EEG signal
+    segment_duration = 300.0
     max_samples = Int(min(segment_duration * fs, minimum([length(sz_signal), length(norm_signal)])))
     sz_seg = sz_signal[1:max_samples]
     norm_seg = norm_signal[1:max_samples]
@@ -137,7 +136,7 @@ function compare_signals(seizure_path::String, normal_path::String)
     sz_filt = apply_filters(sz_seg, fs; notch_filter=notch_filt, bp_filter=bp_filt)
     norm_filt = apply_filters(norm_seg, fs; notch_filter=notch_filt, bp_filter=bp_filt)
     
-    #compute statistics
+    #compute statistics (range, standard deviation, mean)
     println("\n-- AMPLITUDE COMPARISON --")
     sz_amp = Dict(
         "RMS" => rmsval(sz_filt),
