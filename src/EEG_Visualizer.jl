@@ -67,7 +67,6 @@ function parse_annotations(f::EDF.File)
     anns = []
     if hasproperty(s, :records)
         for rec in s.records
-            # Many implementations: rec.annotations is a vector of (onset, duration, text)
             if hasproperty(rec, :annotations)
                 for a in rec.annotations
                     onset = getproperty(a, :onset, nothing)
@@ -76,7 +75,7 @@ function parse_annotations(f::EDF.File)
                     push!(anns, (onset, dur, txt))
                 end
             else
-                # fallback: try fields directly on rec
+                #fallback: try fields directly on rec
                 try
                     push!(anns, (rec.onset, rec.duration, rec.text))
                 catch

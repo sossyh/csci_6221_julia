@@ -51,6 +51,7 @@ function detect_seizures(signal::AbstractVector{<:Real}, fs::Real;
                          mains_freq::Real=50.0,
                          score_threshold::Real=3.0,
                          weights = (delta=1.0, line=1.0, var=0.6))
+                         
     x = bandpass_filter(signal, fs, 0.5, min(90.0, fs/2 - 1.0))
     x = notch_filter(x, fs; f0=mains_freq)
 
