@@ -155,7 +155,7 @@ if !isempty(anns)
 end
 
 display(p)
-wait_for_enter("Press Enter to continue to filtered view:")
+wait_for_enter("Press Enter to go to next plot:")
 
 # ------------------------
 #filtering example: notch -> bandpass applied to all channels
