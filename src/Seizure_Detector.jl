@@ -51,7 +51,7 @@ function detect_seizures(signal::AbstractVector{<:Real}, fs::Real;
                          mains_freq::Real=50.0,
                          score_threshold::Real=3.0,
                          weights = (delta=1.0, line=1.0, var=0.6))
-                         
+
     x = bandpass_filter(signal, fs, 0.5, min(90.0, fs/2 - 1.0))
     x = notch_filter(x, fs; f0=mains_freq)
 
@@ -64,18 +64,24 @@ function detect_seizures(signal::AbstractVector{<:Real}, fs::Real;
     nw = length(starts)
 
     deltas = zeros(nw); lines = zeros(nw); vars = zeros(nw)
+
+    #for loop iterates window through each time segment
     for (i, s) in enumerate(starts)
         w = @view x[s:s+win-1]
+        #calculates delta, line length, and variance for each window
         deltas[i] = band_power(w, fs, 0.5, 4.0)
         lines[i] = line_length(w)
         vars[i] = variance(w)
     end
 
+    #computes z score for each time segment
     zscore_f(v) = (v .- mean(v)) ./ (std(v) + eps())
     Zd = zscore_f(deltas); Zl = zscore_f(lines); Zv = zscore_f(vars)
     score = weights.delta*Zd .+ weights.line*Zl .+ weights.var*Zv
 
+    #compares calculated score with the seizure score threshold
     is_pos = score .> score_threshold
+
     intervals = Vector{Tuple{Float64,Float64,Float64}}()
     i = 1
     while i <= nw

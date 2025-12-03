@@ -22,7 +22,7 @@ function load_edf_channels(path::AbstractString)
     return chans
 end
 
-#simple design: notch (bandstop) around f0 with quality factor Q
+#simple design: notch around f0 with quality factor Q
 function design_notch(fs::Real, f0::Real=60.0, q::Real=30.0, order::Int=2)
     nyq = fs/2
     bw = f0 / q              
@@ -165,7 +165,7 @@ function compare_signals(seizure_path::String, normal_path::String)
         println("  $k: $(round(ratio, digits=2))x")
     end
     
-    #compute band powers
+    #compute each band power
     println("\n-- FREQUENCY BAND POWER COMPARISON --")
     sz_bands = extract_band_powers(sz_filt, fs)
     norm_bands = extract_band_powers(norm_filt, fs)
@@ -227,8 +227,6 @@ function run_comparison()
     #get normal awake file path
     print("Enter normal awake file path: ")
     normal_path = String(strip(readline()))
-    
-    println("\n" * "="^50)
     
     results = compare_signals(seizure_path, normal_path)
 end
